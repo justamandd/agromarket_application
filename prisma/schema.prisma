@@ -29,6 +29,7 @@ model Customer {
   first_name String
   last_name String
   email String @unique
+  cpf String @unique
   password String
   farm Farm[]
   address Address?
