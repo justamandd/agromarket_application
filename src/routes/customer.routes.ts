@@ -1,10 +1,7 @@
-import express from "express";
+import express, {Request, Response, NextFunction} from "express";
+import {createUserProfile} from "../controllers/CustomerController";
 const customerRouter = express.Router();
 
-customerRouter.get("/test", (req, res) => {
-    res.send('test customer')
-})
-
-
+customerRouter.post("/register", createUserProfile)
 
 export default customerRouter;

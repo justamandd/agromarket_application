@@ -6,10 +6,11 @@ CREATE TYPE "mass_measure" AS ENUM ('kg', 'ton', 'bag');
 
 -- CreateTable
 CREATE TABLE "Customer" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "cpf" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -19,45 +20,45 @@ CREATE TABLE "Customer" (
 
 -- CreateTable
 CREATE TABLE "Farm" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fk_customer_id" BIGINT NOT NULL,
+    "fk_customer_id" INTEGER NOT NULL,
 
     CONSTRAINT "Farm_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Address" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "uf" TEXT NOT NULL,
     "city" TEXT NOT NULL,
     "num" TEXT NOT NULL,
     "postal_code" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fk_farm_id" BIGINT NOT NULL,
-    "fk_customer_id" BIGINT NOT NULL,
+    "fk_farm_id" INTEGER NOT NULL,
+    "fk_customer_id" INTEGER NOT NULL,
 
     CONSTRAINT "Address_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "PaymentInfo" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "pix_key" TEXT NOT NULL,
     "pix_type" "pix_type" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fk_customer_id" BIGINT NOT NULL,
+    "fk_customer_id" INTEGER NOT NULL,
 
     CONSTRAINT "PaymentInfo_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Product" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "mass_measure" "mass_measure" NOT NULL DEFAULT 'kg',
     "total_amount" DECIMAL(65,30) NOT NULL,
@@ -65,25 +66,25 @@ CREATE TABLE "Product" (
     "harvest" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fk_farm_id" BIGINT NOT NULL,
+    "fk_farm_id" INTEGER NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Order" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "total_price" DECIMAL(65,30) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fk_customer_id" BIGINT NOT NULL,
+    "fk_customer_id" INTEGER NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "ProductOrder" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "quantity" INTEGER NOT NULL,
 
     CONSTRAINT "ProductOrder_pkey" PRIMARY KEY ("id")
@@ -91,29 +92,32 @@ CREATE TABLE "ProductOrder" (
 
 -- CreateTable
 CREATE TABLE "Payment" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "value" DECIMAL(65,30) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "fk_customer_id" BIGINT NOT NULL,
-    "fk_order_id" BIGINT NOT NULL,
+    "fk_customer_id" INTEGER NOT NULL,
+    "fk_order_id" INTEGER NOT NULL,
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "_ProductToProductOrder" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_OrderToProductOrder" (
-    "A" BIGINT NOT NULL,
-    "B" BIGINT NOT NULL
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Customer_email_key" ON "Customer"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Customer_cpf_key" ON "Customer"("cpf");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Farm_fk_customer_id_key" ON "Farm"("fk_customer_id");
