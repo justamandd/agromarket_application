@@ -1,28 +1,12 @@
 import {Request, Response, NextFunction} from "express";
 import {CustomerModel} from "../models/CustomerModel";
 import {newCustomerSchema} from "../schemas/CustomerSchema";
-import IPayload from "../Intefaces/IPayload";
-import ICustomer from "../Intefaces/ICustomer";
+import IPayload from "../intefaces/IPayload";
+import ICustomer from "../intefaces/ICustomer";
 import CustomerService from "../services/CustomerService";
-import crypto from 'crypto';
-
-function gerarHashSenha(senha: string, salt: any) {
-    // Cria um objeto de hash usando o algoritmo SHA-256
-    const hash = crypto.createHash('sha256');
-
-    // Adiciona a senha e o salt ao objeto de hash
-    hash.update(senha + salt);
-
-    // Gera o hash final em formato hexadecimal
-    const hashSenha = hash.digest('hex');
-
-    return hashSenha;
-}
-
+import passwordHashing from "../utils/passwordHashing";
 
 const customerService = new CustomerService();
-
-const saltRounds = 42;
 
 export const createUserProfile = (req: Request, res: Response) => {
     const data = req.body as ICustomer;
@@ -40,7 +24,7 @@ export const createUserProfile = (req: Request, res: Response) => {
         return res.status(400).send(response)
     }
 
-    data.password = gerarHashSenha(data.password, saltRounds)
+    data.password = passwordHashing(data.password)
 
     const customer: CustomerModel = new CustomerModel(data)
 
@@ -57,5 +41,4 @@ export const createUserProfile = (req: Request, res: Response) => {
 
             res.status(400).send(response)
         })
-    // console.log(validation);
 }

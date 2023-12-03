@@ -1,4 +1,4 @@
-import ICustomer from "../Intefaces/ICustomer";
+import ICustomer from "../intefaces/ICustomer";
 
 export class CustomerModel {
     id?: number
