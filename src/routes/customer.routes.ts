@@ -1,5 +1,6 @@
-import express, {Request, Response, NextFunction} from "express";
+import express from "express";
 import {createUserProfile} from "../controllers/CustomerController";
+
 const customerRouter = express.Router();
 
 customerRouter.post("/register", createUserProfile)

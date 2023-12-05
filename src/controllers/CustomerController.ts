@@ -37,8 +37,12 @@ export const createUserProfile = (req: Request, res: Response) => {
             res.send(response);
         })
         .catch(err => {
-            response.message = err.message;
+            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
 
             res.status(400).send(response)
         })
+}
+
+export const authenticateCustomer = (req: Request, res: Response) => {
+
 }
