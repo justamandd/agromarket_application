@@ -1,8 +1,8 @@
 import Joi from "joi";
 
 export const newCustomerSchema = Joi.object({
-    first_name: Joi.string().alphanum().required(),
-    last_name: Joi.string().alphanum().required(),
+    first_name: Joi.string().required(),
+    last_name: Joi.string().required(),
     email: Joi.string().pattern(new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')).required(),
     cpf: Joi.string().pattern(new RegExp('[0-9]+$')).min(11).max(11).required(),
     password: Joi.string().required()

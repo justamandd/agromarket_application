@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express";
+import {Request, Response} from "express";
 import {CustomerModel} from "../models/CustomerModel";
 import {customerLoginInfoSchema, newCustomerSchema} from "../schemas/CustomerSchema";
 import IPayload from "../intefaces/IPayload";
