@@ -15,4 +15,20 @@ export default class FarmService {
 
         return farm as FarmModel;
     }
+
+    async listFarms() {
+        const farms: IFarm[] = await this.prisma.farm.findMany();
+
+        return farms as FarmModel[];
+    }
+
+    async getFarm(farmData: FarmModel) {
+        const farm = await this.prisma.farm.findUnique({
+            where: {
+                id: farmData.id
+            }
+        })
+
+        return farm as FarmModel;
+    }
 }

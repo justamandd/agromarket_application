@@ -10,3 +10,7 @@ export const fullFarmSchema = createFarmSchema.append({
     created_at: Joi.date().required(),
     updated_at: Joi.date()
 })
+
+export const idFarmSchema = Joi.object({
+    id: Joi.number().required()
+})
