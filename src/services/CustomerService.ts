@@ -20,4 +20,14 @@ export default class CustomerService {
         return customer as CustomerModel
     }
 
+    async authCustomer(customerData: CustomerModel) {
+        const customer = await this.prisma.customer.findUnique({
+            where: {
+                email: customerData.email
+            }
+        })
+
+        return customer as CustomerModel
+    }
+
 }

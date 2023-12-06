@@ -14,3 +14,7 @@ export const fullCustomerSchema = newCustomerSchema.append({
     updated_at: Joi.date()
 })
 
+export const customerLoginInfoSchema = Joi.object({
+    email: Joi.string().pattern(new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')).required(),
+    password: Joi.string().required()
+})
