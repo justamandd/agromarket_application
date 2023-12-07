@@ -79,19 +79,19 @@ model Product {
   id Int @id @unique @default(autoincrement())
   name String
   mass_measure mass_measure @default(kg)
-  total_amount Decimal
-  price Decimal
+  total_amount Decimal @db.Decimal(65,3)
+  price Decimal @db.Decimal(65,3)
   harvest DateTime
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
-  fk_farm_id Int @unique
+  fk_farm_id Int
   farm Farm @relation(fields: [fk_farm_id], references: [id])
   productOrder ProductOrder[]
 }
 
 model Order {
   id Int @id @unique @default(autoincrement())
-  total_price Decimal
+  total_price Decimal @db.Decimal(65,3)
   payment Payment?
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -109,7 +109,7 @@ model ProductOrder {
 
 model Payment {
   id Int @id @unique @default(autoincrement())
-  value Decimal
+  value Decimal @db.Decimal(65,3)
   created_at DateTime @default(now())
   fk_customer_id Int @unique
   fk_order_id Int @unique
