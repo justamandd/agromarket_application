@@ -1,6 +1,6 @@
 import IFarm from "../intefaces/IFarm";
 
-export class FarmModel {
+export default class FarmModel {
     id?: number
     name: string
     fk_customer_id: number

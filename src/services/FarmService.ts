@@ -1,5 +1,5 @@
 import {PrismaClient} from "@prisma/client";
-import {FarmModel} from "../models/FarmModel";
+import FarmModel from "../models/FarmModel";
 import IFarm from "../intefaces/IFarm";
 
 export default class FarmService {

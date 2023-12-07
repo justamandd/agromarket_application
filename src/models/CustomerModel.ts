@@ -1,6 +1,6 @@
 import ICustomer from "../intefaces/ICustomer";
 
-export class CustomerModel {
+export default class CustomerModel {
     id?: number
     first_name: string
     last_name: string

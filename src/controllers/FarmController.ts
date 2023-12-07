@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from "express";
 import IPayload from "../intefaces/IPayload";
 import IFarm from "../intefaces/IFarm";
 import {createFarmSchema, idFarmSchema} from "../schemas/FarmSchema";
-import {FarmModel} from "../models/FarmModel";
+import FarmModel from "../models/FarmModel";
 import FarmService from "../services/FarmService";
 
 const farmService = new FarmService();

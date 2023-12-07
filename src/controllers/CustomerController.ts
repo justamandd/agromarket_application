@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {CustomerModel} from "../models/CustomerModel";
+import CustomerModel from "../models/CustomerModel";
 import {customerLoginInfoSchema, newCustomerSchema} from "../schemas/CustomerSchema";
 import IPayload from "../intefaces/IPayload";
 import ICustomer from "../intefaces/ICustomer";

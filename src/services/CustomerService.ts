@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import {CustomerModel} from "../models/CustomerModel";
+import CustomerModel from "../models/CustomerModel";
 import ICustomer from "../intefaces/ICustomer";
 
 export default class CustomerService {
