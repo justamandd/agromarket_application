@@ -3,6 +3,6 @@ import {authenticateCustomer, createUserProfile} from "../controllers/CustomerCo
 
 const customerRouter = express.Router();
 
-customerRouter.post("/register", createUserProfile)
+customerRouter.post("/", createUserProfile)
 customerRouter.post("/login", authenticateCustomer)
 export default customerRouter;
