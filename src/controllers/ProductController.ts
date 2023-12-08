@@ -98,7 +98,7 @@ export const getAllProducts = (req: Request, res: Response) => {
 }
 
 export const findProduct = (req: Request, res: Response) => {
-    const data = req.body as IProduct;
+    const id = Number(req.params.id);
 
     const response: IPayload = {
         status: 400,
@@ -106,14 +106,12 @@ export const findProduct = (req: Request, res: Response) => {
         payload: null
     };
 
-    const { error, value } = idProductSchema.validate(data)
-
-    if (error) {
-        response.message = error.message;
+    if (!id) {
+        response.message = "Product Id must be inputted";
         return res.status(200).send(response)
     }
 
-    productService.getProduct(data as ProductModel)
+    productService.getProduct(new ProductModel({id} as IProduct))
         .then(data => {
             if (!data) {
                 response.message = "No product for this id"

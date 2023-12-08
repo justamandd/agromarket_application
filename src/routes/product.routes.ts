@@ -9,10 +9,10 @@ import {
 
 const productRouter = express.Router();
 
-productRouter.post("/create", createProduct)
-productRouter.patch("/update", updateProduct)
+productRouter.post("/", createProduct)
+productRouter.patch("/", updateProduct)
 productRouter.get("/", getAllProducts)
-productRouter.get("/unique", findProduct)
-productRouter.delete("/delete", deleteProduct)
+productRouter.get("/:id", findProduct)
+productRouter.delete("/", deleteProduct)
 
 export default productRouter;
