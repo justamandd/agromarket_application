@@ -3,9 +3,9 @@ import {createFarmProfile, getAllFarms, getFarm} from "../controllers/FarmContro
 
 const farmRouter = express.Router();
 
-farmRouter.post("/create", createFarmProfile)
+farmRouter.post("/", createFarmProfile)
 farmRouter.get("/", getAllFarms)
-farmRouter.get("/unique", getFarm)
+farmRouter.get("/:id", getFarm)
 
 
 export default farmRouter;

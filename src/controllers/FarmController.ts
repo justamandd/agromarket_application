@@ -64,7 +64,7 @@ export const getAllFarms = (req: Request, res: Response) => {
 }
 
 export const getFarm = (req: Request, res: Response) => {
-    const data = req.body as IFarm;
+    const id = Number(req.params.id);
 
     const response: IPayload = {
         status: 400,
@@ -72,14 +72,12 @@ export const getFarm = (req: Request, res: Response) => {
         payload: null
     };
 
-    const { error, value } = idFarmSchema.validate(data)
-
-    if (error) {
-        response.message = error.message;
+    if (!id) {
+        response.message = "Product Id must be inputted";
         return res.status(200).send(response)
     }
 
-    farmService.getFarm(data as FarmModel)
+    farmService.getFarm(new FarmModel({id} as IFarm))
         .then(data => {
             if (!data) {
                 response.message = "No farm for this id"
