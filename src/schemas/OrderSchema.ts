@@ -7,6 +7,7 @@ export const createOrderSchema = Joi.object({
 
 export const fullOrderSchema = createOrderSchema.append({
     id: Joi.number().required(),
+    status: Joi.string().valid("waiting", "completed"),
     created_at: Joi.date(),
     updated_at: Joi.date()
 })

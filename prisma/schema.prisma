@@ -24,6 +24,11 @@ enum mass_measure {
   bag
 }
 
+enum order_status {
+  waiting
+  completed
+}
+
 model Customer {
   id Int @id @default(autoincrement())
   first_name String
@@ -93,6 +98,7 @@ model Order {
   id Int @id @unique @default(autoincrement())
   total_price Decimal @db.Decimal(65,3)
   payment Payment?
+  status order_status @default(waiting)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
   fk_customer_id Int

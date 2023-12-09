@@ -4,7 +4,6 @@ import IPayload from "../intefaces/IPayload";
 import {createOrderSchema} from "../schemas/OrderSchema";
 import OrderModel from "../models/OrderModel";
 import OrderService from "../services/OrderService";
-import IProduct from "../intefaces/IProduct";
 
 const orderService = new OrderService();
 
