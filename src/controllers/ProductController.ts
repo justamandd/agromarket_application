@@ -166,3 +166,4 @@ export const deleteProduct = (req: Request, res: Response) => {
             res.status(200).send(response)
         })
 }
+

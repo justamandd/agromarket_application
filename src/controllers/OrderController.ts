@@ -4,11 +4,18 @@ import IPayload from "../intefaces/IPayload";
 import {createOrderSchema} from "../schemas/OrderSchema";
 import OrderModel from "../models/OrderModel";
 import OrderService from "../services/OrderService";
+import IProductOrder from "../intefaces/IProductOrder";
+import {createProductOrderSchema} from "../schemas/ProductOrderSchema";
+import ProductOrderService from "../services/ProductOrderService";
+import ProductOrderModel from "../models/ProductOrderModel";
 
 const orderService = new OrderService();
+const productOrderService = new ProductOrderService();
 
 export const createOrder = (req: Request, res: Response) => {
-    const data = req.body as IOrder;
+    const orderData = req.body.order as IOrder;
+
+    const productsData = req.body.products as IProductOrder[];
 
     const response: IPayload = {
         status: 400,
@@ -16,25 +23,40 @@ export const createOrder = (req: Request, res: Response) => {
         payload: null
     }
 
-    const { error, value } = createOrderSchema.validate(data);
+    const orderValidation = createOrderSchema.validate(orderData);
 
-    if (error) {
-        response.message = error.message;
+    if (orderValidation.error) {
+        response.message = orderValidation.error.message;
         return res.status(200).send(response)
     }
 
-    const order = new OrderModel(data)
+    const productOrderValidation = createProductOrderSchema.validate(productsData);
 
-    orderService.createOrder(order)
+    if (productOrderValidation.error) {
+        response.message = productOrderValidation.error.message;
+        return res.status(200).send(response)
+    }
+
+    const order = new OrderModel(orderData)
+
+    orderService.createOrder(order, productsData)
         .then(data => {
+            console.log(data)
+
+            if (!data) {
+                response.message = "No product for this id"
+                return res.send(response);
+            }
+
             response.status = 200;
             response.message = "SUCCESS";
-            response.payload = data as IOrder;
+            response.payload = data;
 
-            res.send(response);
+            res.send(response)
         })
         .catch(err => {
-            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
+            console.log(err)
+            response.message = `${err.code}: ${err.name} on target ${err.meta}`;
 
             res.status(200).send(response)
         })

@@ -64,4 +64,18 @@ export default class ProductService {
 
         return product as unknown as ProductModel;
     }
+
+    async getMultipleProducts(productData: ProductModel[]) {
+        const ids: number[] = productData.map(product => product.id!)
+
+        const products = await this.prisma.product.findMany({
+            where: {
+                id: {
+                    in: ids
+                }
+            }
+        })
+
+        return products
+    }
 }

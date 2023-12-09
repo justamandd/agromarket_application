@@ -91,7 +91,7 @@ model Product {
   updated_at DateTime @default(now())
   fk_farm_id Int
   farm Farm @relation(fields: [fk_farm_id], references: [id])
-  productOrder ProductOrder[]
+  orders ProductOrder[]
 }
 
 model Order {
@@ -103,14 +103,17 @@ model Order {
   updated_at DateTime @default(now())
   fk_customer_id Int
   customer Customer @relation(fields: [fk_customer_id], references: [id])
-  productOrder ProductOrder[]
+  products ProductOrder[]
 }
 
 model ProductOrder {
-  id Int @id @default(autoincrement())
-  product_id Product[]
-  order_id Order[]
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id Int
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  order_id Int
+
   quantity Int
+  @@id([product_id, order_id])
 }
 
 model Payment {

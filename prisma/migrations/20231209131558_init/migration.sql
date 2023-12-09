@@ -88,10 +88,11 @@ CREATE TABLE "Order" (
 
 -- CreateTable
 CREATE TABLE "ProductOrder" (
-    "id" SERIAL NOT NULL,
+    "product_id" INTEGER NOT NULL,
+    "order_id" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
 
-    CONSTRAINT "ProductOrder_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ProductOrder_pkey" PRIMARY KEY ("product_id","order_id")
 );
 
 -- CreateTable
@@ -103,18 +104,6 @@ CREATE TABLE "Payment" (
     "fk_order_id" INTEGER NOT NULL,
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "_ProductToProductOrder" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "_OrderToProductOrder" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
 );
 
 -- CreateIndex
@@ -159,18 +148,6 @@ CREATE UNIQUE INDEX "Payment_fk_customer_id_key" ON "Payment"("fk_customer_id");
 -- CreateIndex
 CREATE UNIQUE INDEX "Payment_fk_order_id_key" ON "Payment"("fk_order_id");
 
--- CreateIndex
-CREATE UNIQUE INDEX "_ProductToProductOrder_AB_unique" ON "_ProductToProductOrder"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_ProductToProductOrder_B_index" ON "_ProductToProductOrder"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "_OrderToProductOrder_AB_unique" ON "_OrderToProductOrder"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_OrderToProductOrder_B_index" ON "_OrderToProductOrder"("B");
-
 -- AddForeignKey
 ALTER TABLE "Farm" ADD CONSTRAINT "Farm_fk_customer_id_fkey" FOREIGN KEY ("fk_customer_id") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -190,19 +167,13 @@ ALTER TABLE "Product" ADD CONSTRAINT "Product_fk_farm_id_fkey" FOREIGN KEY ("fk_
 ALTER TABLE "Order" ADD CONSTRAINT "Order_fk_customer_id_fkey" FOREIGN KEY ("fk_customer_id") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "ProductOrder" ADD CONSTRAINT "ProductOrder_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ProductOrder" ADD CONSTRAINT "ProductOrder_order_id_fkey" FOREIGN KEY ("order_id") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Payment" ADD CONSTRAINT "Payment_fk_customer_id_fkey" FOREIGN KEY ("fk_customer_id") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Payment" ADD CONSTRAINT "Payment_fk_order_id_fkey" FOREIGN KEY ("fk_order_id") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_ProductToProductOrder" ADD CONSTRAINT "_ProductToProductOrder_A_fkey" FOREIGN KEY ("A") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_ProductToProductOrder" ADD CONSTRAINT "_ProductToProductOrder_B_fkey" FOREIGN KEY ("B") REFERENCES "ProductOrder"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_OrderToProductOrder" ADD CONSTRAINT "_OrderToProductOrder_A_fkey" FOREIGN KEY ("A") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_OrderToProductOrder" ADD CONSTRAINT "_OrderToProductOrder_B_fkey" FOREIGN KEY ("B") REFERENCES "ProductOrder"("id") ON DELETE CASCADE ON UPDATE CASCADE;
