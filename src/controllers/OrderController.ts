@@ -6,11 +6,8 @@ import OrderModel from "../models/OrderModel";
 import OrderService from "../services/OrderService";
 import IProductOrder from "../intefaces/IProductOrder";
 import {createProductOrderSchema} from "../schemas/ProductOrderSchema";
-import ProductOrderService from "../services/ProductOrderService";
-import ProductOrderModel from "../models/ProductOrderModel";
 
 const orderService = new OrderService();
-const productOrderService = new ProductOrderService();
 
 export const createOrder = (req: Request, res: Response) => {
     const orderData = req.body.order as IOrder;

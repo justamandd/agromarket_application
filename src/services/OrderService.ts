@@ -64,4 +64,15 @@ export default class OrderService {
 
         return orders as unknown as ProductModel[];
     }
+
+    async findOrderById(orderData: OrderModel) {
+        return this.prisma.order.findUnique({
+            where: {
+                id: orderData.id
+            },
+            include: {
+                products: true,
+            },
+        })
+    }
 }

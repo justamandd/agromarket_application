@@ -3,7 +3,7 @@ import {
     createProduct,
     deleteProduct,
     findProduct,
-    getAllProducts,
+    getAllProducts, listProductsByOrder,
     updateProduct
 } from "../controllers/ProductController";
 
@@ -14,5 +14,6 @@ productRouter.patch("/", updateProduct)
 productRouter.get("/", getAllProducts)
 productRouter.get("/:id", findProduct)
 productRouter.delete("/", deleteProduct)
+productRouter.get("/o/:id", listProductsByOrder)
 
 export default productRouter;

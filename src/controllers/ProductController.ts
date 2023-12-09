@@ -4,10 +4,12 @@ import IPayload from "../intefaces/IPayload";
 import {createProductSchema, fullProductSchema, idProductSchema} from "../schemas/ProductSchema";
 import ProductModel from "../models/ProductModel";
 import ProductService from "../services/ProductService";
-import IFarm from "../intefaces/IFarm";
-import FarmModel from "../models/FarmModel";
+import OrderService from "../services/OrderService";
+import OrderModel from "../models/OrderModel";
+import IOrder from "../intefaces/IOrder";
 
 const productService = new ProductService();
+const orderService = new OrderService();
 
 export const createProduct = (req: Request, res: Response) => {
     const data = req.body as IProduct
@@ -159,6 +161,58 @@ export const deleteProduct = (req: Request, res: Response) => {
             response.payload = data as IProduct;
 
             res.send(response)
+        })
+        .catch(err => {
+            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
+
+            res.status(200).send(response)
+        })
+}
+
+export const listProductsByOrder = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
+    const response: IPayload = {
+        status: 400,
+        message: "Unexpected error",
+        payload: null
+    };
+
+    if (!id) {
+        response.message = "Order id must be inputted";
+        return res.status(200).send(response)
+    }
+
+    const order = orderService.findOrderById(new OrderModel({id} as IOrder))
+        .then(orderData => {
+            if (!orderData) {
+                response.message = "No product for this id"
+                return res.send(response);
+            }
+
+            const ids = orderData.products.map(product => product.product_id)
+
+            productService.getMultipleProducts(ids)
+                .then(data => {
+                    if (!data) {
+                        response.message = "No product for this id"
+                        return res.send(response);
+                    }
+
+                    response.status = 200;
+                    response.message = "SUCCESS";
+                    response.payload = data;
+
+                    res.send(response)
+                })
+                .catch(err => {
+                    response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
+
+                    res.status(200).send(response)
+                })
+
+
+
         })
         .catch(err => {
             response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
