@@ -45,20 +45,20 @@ export default class ProductService {
         return product as unknown[] as ProductModel[];
     }
 
-    async getProduct(productDate: ProductModel) {
+    async getProduct(productData: ProductModel) {
         const product = await this.prisma.product.findUnique({
             where: {
-                id: productDate.id
+                id: productData.id
             }
         })
 
         return product as unknown as ProductModel;
     }
 
-    async deleteProduct(productDate: ProductModel) {
+    async deleteProduct(productData: ProductModel) {
         const product = await this.prisma.product.delete({
             where: {
-                id: productDate.id
+                id: productData.id
             }
         })
 
