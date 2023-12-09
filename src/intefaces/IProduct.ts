@@ -1,4 +1,4 @@
-import { mass_measure } from "C:/development/agromarket/node_modules/.prisma/client";
+import {mass_measure} from "C:/development/agromarket/node_modules/.prisma/client";
 
 export default interface IProduct {
     id?: number,

@@ -5,8 +5,6 @@ import IPayload from "../intefaces/IPayload";
 import ICustomer from "../intefaces/ICustomer";
 import CustomerService from "../services/CustomerService";
 import passwordHashing from "../utils/passwordHashing";
-import Jwt from "../utils/jwt";
-import IProduct from "../intefaces/IProduct";
 
 const customerService = new CustomerService();
 
@@ -14,9 +12,7 @@ export const createUserProfile = (req: Request, res: Response) => {
     const data = req.body as ICustomer;
 
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     }
 
     const validation = newCustomerSchema.validate(data)
@@ -37,7 +33,6 @@ export const createUserProfile = (req: Request, res: Response) => {
             response.payload = data as ICustomer;
 
 
-
             res.send(response);
         })
         .catch(err => {
@@ -49,9 +44,7 @@ export const createUserProfile = (req: Request, res: Response) => {
 
 export const authenticateCustomer = (req: Request, res: Response) => {
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     }
 
     const data = req.body as ICustomer
@@ -101,9 +94,7 @@ export const getCustomerById = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     };
 
     if (!id) {

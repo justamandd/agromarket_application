@@ -8,8 +8,7 @@ export default class FarmService {
     async createFarm(farmData: FarmModel) {
         const farm: IFarm = await this.prisma.farm.create({
             data: {
-                name: farmData.name,
-                fk_customer_id: farmData.fk_customer_id
+                name: farmData.name, fk_customer_id: farmData.fk_customer_id
             }
         })
 

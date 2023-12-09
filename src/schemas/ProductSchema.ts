@@ -10,9 +10,7 @@ export const createProductSchema = Joi.object({
 })
 
 export const fullProductSchema = createProductSchema.append({
-    id: Joi.number().required(),
-    created_at: Joi.date(),
-    updated_at: Joi.date()
+    id: Joi.number().required(), created_at: Joi.date(), updated_at: Joi.date()
 })
 
 export const idProductSchema = Joi.object({

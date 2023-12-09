@@ -1,8 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import OrderModel from "../models/OrderModel";
 import ProductModel from "../models/ProductModel";
-import {listOrdersByCustomerId} from "../controllers/OrderController";
-import ProductOrderModel from "../models/ProductOrderModel";
 import IProductOrder from "../intefaces/IProductOrder";
 
 export default class OrderService {
@@ -13,18 +11,14 @@ export default class OrderService {
 
         const order = await this.prisma.order.create({
             data: {
-                total_price: orderData.total_price,
-                fk_customer_id: orderData.fk_customer_id,
-                products: {
+                total_price: orderData.total_price, fk_customer_id: orderData.fk_customer_id, products: {
                     create: productsIn.map(product => ({
                         product: {
-                            connect: { id: product.product_id },
-                        },
-                        quantity: product.quantity,
+                            connect: {id: product.product_id},
+                        }, quantity: product.quantity,
                     })),
                 },
-            },
-            include: {
+            }, include: {
                 products: true,
             },
         });
@@ -56,8 +50,7 @@ export default class OrderService {
         const orders = await this.prisma.order.findMany({
             where: {
                 fk_customer_id: orderData.fk_customer_id
-            },
-            include: {
+            }, include: {
                 products: true,
             },
         })

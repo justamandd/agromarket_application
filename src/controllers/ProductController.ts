@@ -4,8 +4,6 @@ import IPayload from "../intefaces/IPayload";
 import {createProductSchema, fullProductSchema, idProductSchema} from "../schemas/ProductSchema";
 import ProductModel from "../models/ProductModel";
 import ProductService from "../services/ProductService";
-import IFarm from "../intefaces/IFarm";
-import FarmModel from "../models/FarmModel";
 
 const productService = new ProductService();
 
@@ -13,12 +11,10 @@ export const createProduct = (req: Request, res: Response) => {
     const data = req.body as IProduct
 
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     }
 
-    const { error, value } = createProductSchema.validate(data);
+    const {error, value} = createProductSchema.validate(data);
 
     if (error) {
         response.message = error.message;
@@ -46,12 +42,10 @@ export const updateProduct = (req: Request, res: Response) => {
     const data = req.body as IProduct
 
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     }
 
-    const { error, value } = fullProductSchema.validate(data);
+    const {error, value} = fullProductSchema.validate(data);
 
     if (error) {
         response.message = error.message;
@@ -77,9 +71,7 @@ export const updateProduct = (req: Request, res: Response) => {
 
 export const getAllProducts = (req: Request, res: Response) => {
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     }
 
     productService.listProducts()
@@ -101,9 +93,7 @@ export const findProduct = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     };
 
     if (!id) {
@@ -135,12 +125,10 @@ export const deleteProduct = (req: Request, res: Response) => {
     const data = req.body as IProduct;
 
     const response: IPayload = {
-        status: 400,
-        message: "Unexpected error",
-        payload: null
+        status: 400, message: "Unexpected error", payload: null
     };
 
-    const { error, value } = idProductSchema.validate(data)
+    const {error, value} = idProductSchema.validate(data)
 
     if (error) {
         response.message = error.message;

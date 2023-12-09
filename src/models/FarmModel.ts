@@ -7,7 +7,7 @@ export default class FarmModel {
     created_at?: Date
     updated_at?: Date
 
-    constructor({id, name, fk_customer_id, created_at, updated_at} : IFarm) {
+    constructor({id, name, fk_customer_id, created_at, updated_at}: IFarm) {
         this.id = id;
         this.name = name;
         this.fk_customer_id = fk_customer_id;

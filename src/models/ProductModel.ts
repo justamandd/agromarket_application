@@ -1,4 +1,4 @@
-import { mass_measure } from "C:/development/agromarket/node_modules/.prisma/client";
+import {mass_measure} from "C:/development/agromarket/node_modules/.prisma/client";
 import IProduct from "../intefaces/IProduct";
 
 export default class ProductModel {
@@ -12,7 +12,7 @@ export default class ProductModel {
     updated_at?: Date
     fk_farm_id: number
 
-    constructor({ id, name, mass_measure, total_amount, price, harvest, created_at, updated_at, fk_farm_id }: IProduct) {
+    constructor({id, name, mass_measure, total_amount, price, harvest, created_at, updated_at, fk_farm_id}: IProduct) {
         this.id = id;
         this.name = name;
         this.mass_measure = mass_measure;

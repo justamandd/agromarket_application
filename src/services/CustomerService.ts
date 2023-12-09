@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import {PrismaClient} from "@prisma/client";
 import CustomerModel from "../models/CustomerModel";
 import ICustomer from "../intefaces/ICustomer";
 
