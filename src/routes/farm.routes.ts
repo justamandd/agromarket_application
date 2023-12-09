@@ -8,6 +8,4 @@ farmRouter.get("/", getAllFarms)
 farmRouter.get("/:id", getFarm)
 farmRouter.get("/c/:id", getFarmByCustomer)
 
-
-
 export default farmRouter;
