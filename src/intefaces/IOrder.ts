@@ -1,5 +1,4 @@
-import {order_status} from "C:/development/agromarket/node_modules/.prisma/client";
-
+import { order_status } from "C:/development/agromarket/node_modules/.prisma/client";
 export default interface IOrder {
     id?: number,
     total_price: number,

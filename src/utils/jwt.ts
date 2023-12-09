@@ -1,7 +1,7 @@
 import CustomerModel from "../models/CustomerModel";
 import * as jwt from "jsonwebtoken";
 import {Secret} from "jsonwebtoken";
-import {Response} from "express";
+import express, {Request, Response} from "express";
 
 export default class Jwt {
 
@@ -9,6 +9,12 @@ export default class Jwt {
 
     constructor(customerData: CustomerModel) {
         this.customerData = customerData
+    }
+
+    setJwtToken(res: Response) {
+        res.cookie("token", jwt.sign(this.customerData, process.env.JWT_SECRET as Secret), {
+            httpOnly: true,
+        })
     }
 
     static verifyJwtToken(jwtToken: string) {
@@ -21,11 +27,6 @@ export default class Jwt {
 
     }
 
-    setJwtToken(res: Response) {
-        res.cookie("token", jwt.sign(this.customerData, process.env.JWT_SECRET as Secret), {
-            httpOnly: true,
-        })
-    }
 
 
 }

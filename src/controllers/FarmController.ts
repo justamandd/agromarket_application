@@ -1,7 +1,7 @@
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import IPayload from "../intefaces/IPayload";
 import IFarm from "../intefaces/IFarm";
-import {createFarmSchema} from "../schemas/FarmSchema";
+import {createFarmSchema, idFarmSchema} from "../schemas/FarmSchema";
 import FarmModel from "../models/FarmModel";
 import FarmService from "../services/FarmService";
 
@@ -11,7 +11,9 @@ export const createFarmProfile = (req: Request, res: Response) => {
     const data = req.body as IFarm;
 
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     };
 
     const {error, value} = createFarmSchema.validate(data);
@@ -40,7 +42,9 @@ export const createFarmProfile = (req: Request, res: Response) => {
 
 export const getAllFarms = (req: Request, res: Response) => {
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     };
 
     farmService.listFarms()
@@ -63,7 +67,9 @@ export const getFarm = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     };
 
     if (!id) {
@@ -94,7 +100,9 @@ export const getFarmByCustomer = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     };
 
     if (!id) {

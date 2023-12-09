@@ -1,5 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import ProductModel from "../models/ProductModel";
+import IProduct from "../intefaces/IProduct";
 
 export default class ProductService {
 
@@ -24,7 +25,8 @@ export default class ProductService {
         const product = await this.prisma.product.update({
             where: {
                 id: productData.id,
-            }, data: {
+            },
+            data: {
                 name: productData.name,
                 mass_measure: productData.mass_measure,
                 total_amount: productData.total_amount,

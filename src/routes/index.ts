@@ -1,10 +1,10 @@
 import express from "express";
+const routes = express.Router();
+
 import customerRouter from "./customer.routes";
 import farmRouter from "./farm.routes";
 import productRouter from "./product.routes";
 import orderRoutes from "./order.routes";
-
-const routes = express.Router();
 
 routes.use('/customer', customerRouter);
 routes.use('/farm', farmRouter);

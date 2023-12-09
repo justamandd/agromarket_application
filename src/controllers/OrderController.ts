@@ -7,6 +7,7 @@ import OrderService from "../services/OrderService";
 import IProductOrder from "../intefaces/IProductOrder";
 import {createProductOrderSchema} from "../schemas/ProductOrderSchema";
 import ProductOrderService from "../services/ProductOrderService";
+import ProductOrderModel from "../models/ProductOrderModel";
 
 const orderService = new OrderService();
 const productOrderService = new ProductOrderService();
@@ -17,7 +18,9 @@ export const createOrder = (req: Request, res: Response) => {
     const productsData = req.body.products as IProductOrder[];
 
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     }
 
     const orderValidation = createOrderSchema.validate(orderData);
@@ -63,7 +66,9 @@ export const cancelOrder = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     };
 
     if (!id) {
@@ -93,7 +98,9 @@ export const cancelOrder = (req: Request, res: Response) => {
 
 export const listOrders = (req: Request, res: Response) => {
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     }
 
     orderService.listOrders()
@@ -114,7 +121,9 @@ export const listOrdersByCustomerId = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
     const response: IPayload = {
-        status: 400, message: "Unexpected error", payload: null
+        status: 400,
+        message: "Unexpected error",
+        payload: null
     };
 
     if (!id) {

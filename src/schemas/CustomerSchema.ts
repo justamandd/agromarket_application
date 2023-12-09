@@ -9,7 +9,9 @@ export const newCustomerSchema = Joi.object({
 })
 
 export const fullCustomerSchema = newCustomerSchema.append({
-    id: Joi.number().required(), created_at: Joi.date().required(), updated_at: Joi.date()
+    id: Joi.number().required(),
+    created_at: Joi.date().required(),
+    updated_at: Joi.date()
 })
 
 export const customerLoginInfoSchema = Joi.object({
