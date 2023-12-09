@@ -96,3 +96,36 @@ export const getFarm = (req: Request, res: Response) => {
             res.status(200).send(response)
         })
 }
+export const getFarmByCustomer = (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
+    const response: IPayload = {
+        status: 400,
+        message: "Unexpected error",
+        payload: null
+    };
+
+    if (!id) {
+        response.message = "Product Id must be inputted";
+        return res.status(200).send(response)
+    }
+
+    farmService.getFarmByCustomer(new FarmModel({fk_customer_id: id} as IFarm))
+        .then(data => {
+            if (!data) {
+                response.message = "No farm for this id"
+                return res.send(response);
+            }
+
+            response.status = 200;
+            response.message = "SUCCESS";
+            response.payload = data as IFarm;
+
+            res.send(response)
+        })
+        .catch(err => {
+            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
+
+            res.status(200).send(response)
+        })
+}

@@ -31,4 +31,14 @@ export default class FarmService {
 
         return farm as FarmModel;
     }
+
+    async getFarmByCustomer(farmData: FarmModel) {
+        const farm = await this.prisma.farm.findUnique({
+            where: {
+                fk_customer_id: farmData.fk_customer_id
+            }
+        })
+
+        return farm as FarmModel;
+    }
 }
