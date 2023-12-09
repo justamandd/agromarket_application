@@ -30,4 +30,14 @@ export default class CustomerService {
         return customer as CustomerModel
     }
 
+    async getCustomerById(customerData: CustomerModel) {
+        const customer = await this.prisma.customer.findUnique({
+            where: {
+                id: customerData.id
+            }
+        })
+
+        return customer;
+    }
+
 }
