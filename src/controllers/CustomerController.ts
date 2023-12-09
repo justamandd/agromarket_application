@@ -80,8 +80,6 @@ export const authenticateCustomer = (req: Request, res: Response) => {
                 return res.send(response);
             }
 
-            new Jwt(info).setJwtToken(res)
-
             response.status = 200;
             response.message = "SUCCESS";
             response.payload = {
@@ -102,8 +100,6 @@ export const authenticateCustomer = (req: Request, res: Response) => {
 export const getCustomerById = (req: Request, res: Response) => {
     const id = Number(req.params.id);
 
-    const { token } = req.body;
-
     const response: IPayload = {
         status: 400,
         message: "Unexpected error",
@@ -115,30 +111,22 @@ export const getCustomerById = (req: Request, res: Response) => {
         return res.status(200).send(response)
     }
 
-    if (!token) {
-        response.message = "Token must be inputted";
-        return res.status(200).send(response)
-    }
+    customerService.getCustomerById(new CustomerModel({id} as ICustomer))
+        .then(data => {
+            if (!data) {
+                response.message = "No product for this id"
+                return res.send(response);
+            }
 
-    if (Jwt.verifyJwtToken(token)) {
-        customerService.getCustomerById(new CustomerModel({id} as ICustomer))
-            .then(data => {
-                if (!data) {
-                    response.message = "No product for this id"
-                    return res.send(response);
-                }
+            response.status = 200;
+            response.message = "SUCCESS";
+            response.payload = data as ICustomer;
 
-                response.status = 200;
-                response.message = "SUCCESS";
-                response.payload = data as ICustomer;
+            res.send(response)
+        })
+        .catch(err => {
+            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
 
-                res.send(response)
-            })
-            .catch(err => {
-                response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
-
-                res.status(200).send(response)
-            })
-    }
-
+            res.status(200).send(response)
+        })
 }
