@@ -38,8 +38,6 @@ export const createOrder = (req: Request, res: Response) => {
 
     orderService.createOrder(order, productsData)
         .then(data => {
-            console.log(data)
-
             if (!data) {
                 response.message = "No product for this id"
                 return res.send(response);
