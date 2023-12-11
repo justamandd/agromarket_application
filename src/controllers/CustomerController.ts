@@ -32,7 +32,7 @@ export const createUserProfile = (req: Request, res: Response) => {
 
     customerService.createCustomer(customer)
         .then(data => {
-            response.status = 200;
+            response.status = 201;
             response.message = "SUCCESS";
             response.payload = data as ICustomer;
 
