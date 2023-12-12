@@ -7,10 +7,11 @@ import CustomerService from "../services/CustomerService";
 import passwordHashing from "../utils/passwordHashing";
 import Jwt from "../utils/jwt";
 import IProduct from "../intefaces/IProduct";
+import {confirmCpf} from "../services/CpfService";
 
 const customerService = new CustomerService();
 
-export const createUserProfile = (req: Request, res: Response) => {
+export const createUserProfile = async (req: Request, res: Response) => {
     const data = req.body as ICustomer;
 
     const response: IPayload = {
@@ -19,11 +20,23 @@ export const createUserProfile = (req: Request, res: Response) => {
         payload: null
     }
 
-    const validation = newCustomerSchema.validate(data)
+    const { error, value } = newCustomerSchema.validate(data)
 
-    if (validation.error) {
-        response.message = validation.error.message;
-        return res.status(200).send(response)
+    if (error) {
+        response.message = error.message;
+        res.status(200).send(response);
+        return;
+    }
+
+    data.cpf = value.cpf;
+
+    const isValid = await confirmCpf(data.cpf);
+
+    if (isValid == false) {
+        console.log('erro valid')
+        response.message = "Cpf invalid";
+        res.status(200).send(response)
+        return
     }
 
     data.password = passwordHashing(data.password)
@@ -32,18 +45,19 @@ export const createUserProfile = (req: Request, res: Response) => {
 
     customerService.createCustomer(customer)
         .then(data => {
+
             response.status = 201;
             response.message = "SUCCESS";
             response.payload = data as ICustomer;
 
-
-
             res.send(response);
+            return
         })
         .catch(err => {
-            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
 
+            response.message = `${err.code}: ${err.name} on target ${err.meta.target}`;
             res.status(200).send(response)
+            return
         })
 }
 
@@ -89,8 +103,6 @@ export const authenticateCustomer = (req: Request, res: Response) => {
             res.send(response);
         })
         .catch(err => {
-            console.log(err)
-
             response.message = `${err.code}: ${err.name} on target `;
 
             res.send(response)
